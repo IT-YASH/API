@@ -1,0 +1,159 @@
+swagger: "2.0"
+info:
+  title: Welcome to Yash swagger API
+  description: this is my company and i made my first swagger API
+  version: 1.0
+  contact:
+    email: pyash7646@gmail.com
+    liscence:
+      name: Apache 2.0
+      url: "http://apache.org"
+    servers:
+      url: "http://localhost:3000/"
+      description: this is my local server
+
+schemes: [http,https]
+
+# paths: return a string
+#   /string:
+#     get: 
+#       summery: Returns a string
+#       description: it is just returning a fake string
+#       responses: 
+#         200:
+#           description: Success
+#           schema:
+#             type: string
+#               example: a fake string
+#         404:
+#           description: Not valid
+
+#return object
+paths:
+  /string:
+    get: 
+      summary: Returns a string
+      description: it is just returning a fake string
+      responses: 
+        200:
+          description: Success
+          schema:
+            type: string
+              example: a fake string
+        404:
+          description: Not valid
+
+
+  /users:
+    get:
+      summary: this return single object
+      description: returing a object
+      responses:
+        200:
+          description: Success
+          schema: 
+            type: object
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+
+
+  /user:
+    get:
+      summary: return array of users
+      description: array returns
+      responses:
+        200:
+          description: Success
+          schema:
+            type: array
+            items: 
+              type: object
+              properties:
+                id:
+                  type: integer
+                name:
+                  type: string
+
+
+  /user/{userid}:
+    get:
+      summary: Passing dynamically url
+      description: passing url
+      parameters:
+        - name: userid
+          in: path
+          required: true
+          schema:
+            type:integer
+      responses:
+        200:
+          description: Success
+
+#POST JSON/body
+  /create:
+    post:
+      summary: Posting data
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+      - in: body
+        name: users
+        schema:
+          $ref: "#/components/schema/user"
+      responses:
+        200:
+          description: OK
+
+
+#Query
+  /userquery:
+    get:
+      parameters:
+      - in: query
+        name: id
+        type: integer
+        enum: [19,28]
+      responses:
+        200:
+          description: OK
+
+
+#fileupload
+  /upload:
+    post:
+      consumes:
+        - multipart/form-data
+      parameters:
+        - in: formData
+          name: file
+          type: file
+          required: true
+          description: File upload
+        - in: header
+          name: Yash    
+          schema:
+            type: string
+        - in: cookie
+          name: debug
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+
+
+components:
+  schema:
+    user:
+      type: object
+      properties:
+        id:
+          type: integer
+          required: true
+        name:
+          type: string
